@@ -7,6 +7,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 
 import '../config/config.dart';
+import 'app_service.dart';
 import 'config_service.dart';
 import 'db_service.dart';
 
@@ -77,14 +78,16 @@ class AnalyticsService {
       deviceId = iosInfo.identifierForVendor ?? '';
     }
 
-    if (!_db.firstTimeSession()) {
-      fireEventWithMap(AnalyticsEvents.sessionFirstTime, {
-        'device': deviceId,
-      });
-    } else {
-      fireEventWithMap(AnalyticsEvents.sessionStart,
-          {'configVersion': ConfigService().appConfig.configVersion});
-    }
+    AppService.isFirstLaunchStream.listen((firstLaunch) {
+      if (firstLaunch) {
+        fireEventWithMap(AnalyticsEvents.sessionFirstTime, {
+          'device': deviceId,
+        });
+      } else {
+        fireEventWithMap(AnalyticsEvents.sessionStart,
+            {'configVersion': ConfigService().appConfig.configVersion});
+      }
+    });
   }
 
   void fireEvent(AnalyticsEvents event) {

@@ -236,6 +236,8 @@ class GameViewModel with ChangeNotifier {
       }
 
       _addWordLeaf(word, wordIndex);
+
+
     } else if (value != '') {
       wrongAnswerCount += 1;
       _analytics.fireEventWithMap(AnalyticsEvents.onWordMistake, {

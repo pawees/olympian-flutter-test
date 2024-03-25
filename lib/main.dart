@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:olympian/viewmodels/hints_viewmodel.dart';
 import 'config/config.dart';
+import 'services/app_service.dart';
 import 'viewmodels/payment_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -41,8 +43,13 @@ setupInit() async {
 
   final db = DbService();
   await db.init();
+
   final audio = AudioService();
   await audio.init();
+
+  final app = AppService();
+  await app.init();
+
 
   final ad = AdService();
   await ad.init();
@@ -116,6 +123,7 @@ class _AppState extends State<_App> {
           ChangeNotifierProvider(create: (_) => SettingsViewModel()),
           ChangeNotifierProvider(create: (_) => PromoCodeViewModel()),
           ChangeNotifierProvider(create: (_) => PaymentViewModel()),
+          ChangeNotifierProvider(create: (_) => HintsViewModel()),
         ],
         builder: (context, child) {
           return MaterialApp(

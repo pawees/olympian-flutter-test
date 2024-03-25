@@ -58,7 +58,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
       child: DialogWrapper(
         child: SizedBox(
           width: 280,
-          height: 280,
+          height: 380,
           child: Column(
             children: [
               const SizedBox(
@@ -113,7 +113,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                 },
                 type: ImageButtonType.rate,
                 width: 260.0,
-                height: 80.0,
+                height: 50.0,
               ),
               Stack(
                 children: [

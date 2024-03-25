@@ -7,7 +7,6 @@ import 'image_dialog.dart';
 import 'shake.dart';
 import '../utils/ext.dart';
 import '../models/word_model.dart';
-import 'wrong_answer_dialog.dart';
 
 // ignore: constant_identifier_names
 const ANIMATION_DURATION = 100;

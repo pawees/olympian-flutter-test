@@ -5,6 +5,7 @@ import '../models/level_model.dart';
 
 import '../models/word_model.dart';
 import '../styles.dart';
+import '../viewmodels/hints_viewmodel.dart';
 import '../viewmodels/game_viewmodel.dart';
 import 'help_button.dart';
 import 'image_button.dart';
@@ -183,6 +184,9 @@ class _ImageDialogState extends State<ImageDialog> {
                         widget.focusNode.requestFocus();
                         _shakeKey.currentState?.shake();
                       } else if (widget.vm.activeLevel.state != LevelState.success) {
+                        if(widget.vm.activeLevel.id == 100) {
+                          Provider.of<HintsViewModel>(context, listen: false).setHidden('animation1');
+                        }
                         Navigator.pop(context);
                         widget.vm.clearActiveWord();
                         widget.focusNode.unfocus();

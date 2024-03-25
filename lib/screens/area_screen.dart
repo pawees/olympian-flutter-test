@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../utils/physics.dart';
 import '../viewmodels/game_viewmodel.dart';
 import '../widgets/base_scaffold.dart';
+import '../widgets/helper_lottie_animation.dart';
 import '../widgets/score_bar.dart';
 import '../widgets/word_item.dart';
 import '../widgets/help_button.dart';
@@ -17,6 +18,8 @@ class AreaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<GameViewModel>();
+
+
     return BaseScaffold(
       showLeaf: true,
       withPadding: false,
@@ -36,7 +39,9 @@ class AreaScreen extends StatelessWidget {
                   ? 'Открыть выбранное слово. Нельзя открыть последнее слово'
                   : 'Открыть выбранное слово. Выберете ячейку',
             ),
-            const SizedBox(height: 66,),
+            const SizedBox(
+              height: 66,
+            ),
           ],
         ),
         appBar: AppBar(
@@ -128,7 +133,9 @@ class __NestedScrollState extends State<_NestedScroll> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ...group.map((word) {
+                          ...group.asMap().entries.map((entry) {
+                            int columnIndex = entry.key;
+                            var word = entry.value;
                             final key =
                                 word == vm.scrollableWord ? dataKey : null;
                             if (key != null) {
@@ -139,34 +146,45 @@ class __NestedScrollState extends State<_NestedScroll> {
                             final showStartLeaf =
                                 (widthOffset / wordWidth).floor() == index;
                             return AnimatedBuilder(
-                              animation: _scrollCtrl,
-                              builder: (context, child) {
-                                final page =
-                                    max((widthOffset / wordWidth).floor(), 0);
-                                final position = _recalculateOffset(
-                                  maxItems: groups[page].length,
-                                  depth: word.depth,
-                                );
+                                animation: _scrollCtrl,
+                                builder: (context, child) {
+                                  final page =
+                                      max((widthOffset / wordWidth).floor(), 0);
+                                  final position = _recalculateOffset(
+                                    maxItems: groups[page].length,
+                                    depth: word.depth,
+                                  );
 
-                                return AnimatedContainer(
-                                  width: wordWidth,
-                                  height: itemHeight,
-                                  duration: const Duration(milliseconds: 150),
-                                  margin: EdgeInsets.only(
-                                    right: 0,
-                                    top: position,
-                                    bottom: position,
-                                  ),
-                                  child: child,
-                                );
-                              },
-                              child: WordItem(
-                                key: key,
-                                word: word,
-                                showEndLeaf: showEndLeaf,
-                                showStartLeaf: showStartLeaf,
-                              ),
-                            );
+                                  return AnimatedContainer(
+                                    width: wordWidth,
+                                    height: itemHeight,
+                                    duration: const Duration(milliseconds: 150),
+                                    margin: EdgeInsets.only(
+                                      right: 0,
+                                      top: position,
+                                      bottom: position,
+                                    ),
+                                    child: child,
+                                  );
+                                },
+                                child: columnIndex == 0 && index == 0
+                                    ? HelperLottieAnimation(
+                                        animationKey: 'animation1',
+                                        animationPath: 'assets/animations/Animation.json',
+                                        animationAlignment: Alignment.topRight,
+                                        child: WordItem(
+                                          key: key,
+                                          word: word,
+                                          showEndLeaf: showEndLeaf,
+                                          showStartLeaf: showStartLeaf,
+                                        ),
+                                      )
+                                    : WordItem(
+                                        key: key,
+                                        word: word,
+                                        showEndLeaf: showEndLeaf,
+                                        showStartLeaf: showStartLeaf,
+                                      ));
                           }).toList(),
                           Container(
                             height: 66,

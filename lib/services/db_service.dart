@@ -129,6 +129,10 @@ class DbService {
     return result;
   }
 
+  bool getAnimationState(String key) => _box.containsKey(key);
+  setAnimationState(String key) => _box.put(key, true);
+
+
   /// @Deprecated
   LevelState _getLevelState(int id) {
     final result = stateFromString(_box.get('level_${id}_state', defaultValue: 'disabled'));

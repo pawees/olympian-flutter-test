@@ -6,7 +6,6 @@ import '../models/hint_model.dart';
 import '../utils/play_animation_mixin.dart';
 import '../viewmodels/hints_viewmodel.dart';
 
-
 class HelperLottieAnimation extends StatefulWidget {
   final String animationKey;
   final String animationPath;
@@ -56,12 +55,15 @@ class _HelperLottieAnimationState extends State<HelperLottieAnimation>
             alignment: widget.animationAlignment,
             children: [
               widget.child,
-              Lottie.asset(
-                widget.animationPath,
-                fit: BoxFit.cover,
-                animate: true,
-                controller: animationController,
-              ),
+
+              IgnorePointer(
+                child: Lottie.asset(
+                  widget.animationPath,
+                  fit: BoxFit.cover,
+                  animate: true,
+                  controller: animationController,
+                ),
+              )
             ],
           );
         } else {
